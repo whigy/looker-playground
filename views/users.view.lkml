@@ -88,4 +88,22 @@ view: users {
     type: count
     drill_fields: [id, first_name, last_name, events.count, order_items.count]
   }
+
+
+  measure: number_of_customer_with_return{
+    type: count_distinct
+    # filters: [order_items.status: "Returned"] # why not working???
+    sql: ${id} ;;
+  }
+
+  measure: customer_with_return_rate{
+    type: number
+    sql: ${number_of_customer_with_return} / users.count ;;
+    value_format_name: percent_0
+  }
+
+  measure: average_spend_per_customer {
+    type: number
+    sql: ${order_items.total_sale_price} / users.count ;;
+  }
 }

@@ -164,22 +164,6 @@ view: order_items {
     value_format_name: percent_0
   }
 
-  measure: number_of_custiomer_with_return{
-    type: count_distinct
-    sql: ${user_id} ;;
-  }
-
-  measure: custiomer_with_return_rate{
-    type: number
-    sql: ${number_of_custiomer_with_return} / users.count ;;
-    value_format_name: percent_0
-  }
-
-  measure: average_spend_per_customer {
-    type: number
-    sql: ${total_sale_price} / users.count ;;
-  }
-
   # ----- Sets of fields for drilling ------
   set: detail {
     fields: [

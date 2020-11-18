@@ -19,6 +19,7 @@ explore: events {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
+    fields: [-customer_with_return_rate]
   }
 }
 
@@ -71,4 +72,11 @@ explore: products {
   }
 }
 
-explore: users {}
+explore: users {
+  join: order_items {
+    fields: [-margin]
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${users.id} ;;
+    relationship: one_to_many
+  }
+}
