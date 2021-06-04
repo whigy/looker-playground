@@ -14,6 +14,13 @@ view: users {
     sql: ${TABLE}."AGE" ;;
   }
 
+  dimension: age_group {
+    type: tier
+    tiers: [18, 25, 35, 45, 55, 65, 75, 90]
+    sql: ${age} ;;
+    style: integer
+  }
+
   dimension: city {
     type: string
     sql: ${TABLE}."CITY" ;;
@@ -23,6 +30,11 @@ view: users {
     type: string
     map_layer_name: countries
     sql: ${TABLE}."COUNTRY" ;;
+  }
+
+  dimension: city_country {
+    type: string
+    sql: CONCAT(${city}, ‘, ‘, ${country});;
   }
 
   dimension_group: created {
@@ -77,6 +89,11 @@ view: users {
   dimension: traffic_source {
     type: string
     sql: ${TABLE}."TRAFFIC_SOURCE" ;;
+  }
+
+  dimension: is_email {
+    type: yesno
+    sql: ${traffic_source} = 'Email' ;;
   }
 
   dimension: zip {
