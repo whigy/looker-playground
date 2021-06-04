@@ -152,6 +152,12 @@ view: order_items {
     sql: ${id} ;;
   }
 
+  measure: number_of_customer_with_return {
+    type: count_distinct
+    filters: [status: "Returned"]
+    sql: ${user_id} ;;
+  }
+
   measure: number_of_items_sold {
     type: count_distinct
     filters: [status: "Complete, Processing"]
@@ -162,6 +168,32 @@ view: order_items {
     type: number
     sql: ${number_of_items_returned} / NULLIFZERO(${number_of_items_sold});;
     value_format_name: percent_0
+  }
+
+  measure: customer_with_return_rate {
+    type: number
+    sql: ${number_of_customer_with_return} / ${users.count} ;;
+    value_format_name: percent_0
+  }
+
+  measure: average_spend_per_customer {
+    type: number
+    sql: ${total_sale_price} / ${users.count} ;;
+  }
+
+  measure: count_of_orders {
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
+
+  measure: first_order_date {
+    type: date
+    sql: MIN(${created_date}) ;;
+  }
+
+  measure: latest_order_date {
+    type: date
+    sql: MAX(${created_date}) ;;
   }
 
   # ----- Sets of fields for drilling ------

@@ -2,6 +2,7 @@ connection: "snowlooker"
 
 # include all the views
 include: "/views/**/*.view"
+include: "/derived_tables/**/*.view"
 
 datagroup: huijie_case_study_playground_default_datagroup {
   # sql_trigger: SELECT MAX(id) FROM etl_log;;
@@ -19,7 +20,7 @@ explore: events {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
-    fields: [-customer_with_return_rate]
+    # fields: [-customer_with_return_rate]
   }
 }
 
