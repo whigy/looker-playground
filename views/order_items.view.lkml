@@ -116,15 +116,37 @@ view: order_items {
   }
 
   measure: total_sale_price {
+    description: "Sum of sale price"
     type: sum
     sql:  ${sale_price} ;;
     value_format_name: usd
   }
 
+  # measure: total_sales_new_users {
+  #   type: sum
+  #   sql: ${sale_price} ;;
+  #   filters:  [users.is_new_user: "Yes"]
+  # }
+
   measure: average_sale_price {
+    description: "Average of sale price"
     type: average
     sql:  ${sale_price} ;;
     value_format_name: usd
+  }
+
+  measure: total_sales_email_traffic {
+    description: "total sales for only users that came to the website via the Email traffic source"
+    type: sum
+    sql: ${sale_price} ;;
+    filters:  [users.traffic_source: "Email"]
+  }
+
+  measure: percentage_sales_email_traffic {
+    description: "percentage of sales that are attributed to users coming from the email traffic source"
+    type: number
+    value_format_name: percent_2
+    sql: 1.0* ${total_sales_email_traffic} / NULLIF(${total_sale_price} , 1) ;;
   }
 
   measure: cumulative_total_sales {
@@ -157,6 +179,12 @@ view: order_items {
     type: number
     sql: ${total_gross_margin} / NULLIFZERO(${total_gross_revenue}) ;;
     value_format_name: percent_0
+  }
+
+  measure: number_of_items {
+    description: "A count of unique orders"
+    type: count_distinct
+    sql: ${id} ;;
   }
 
   measure: number_of_items_returned {
