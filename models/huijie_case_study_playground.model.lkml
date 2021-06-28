@@ -101,3 +101,5 @@ explore: users {
     relationship: one_to_many
   }
 }
+
+explore: brand_order_facts_ndt {}

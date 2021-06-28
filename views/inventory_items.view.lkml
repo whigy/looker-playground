@@ -99,4 +99,10 @@ view: inventory_items {
     sql:  ${cost} ;;
     value_format_name: usd
   }
+
+  measure: cost_of_goods_sold {
+    type: sum
+    value_format_name: usd
+    sql: CASE WHEN ${sold_time} is not null THEN ${cost} ELSE NULL END;;
+  }
 }
