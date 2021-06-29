@@ -93,6 +93,10 @@ explore: products {
 }
 
 explore: users {
+  # access_filter: { # this is not set up in user attributes
+  #   field:state
+  #   user_attribute: state
+  # }
   persist_with: user_datagroup
   join: order_items {
     fields: [-margin]

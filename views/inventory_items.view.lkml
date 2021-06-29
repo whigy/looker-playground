@@ -105,4 +105,5 @@ view: inventory_items {
     value_format_name: usd
     sql: CASE WHEN ${sold_time} is not null THEN ${cost} ELSE NULL END;;
   }
+
 }
