@@ -1,4 +1,7 @@
+include: "geography_dimensions.view"
+
 view: events {
+  extends: [geography_dimensions]
   sql_table_name: "PUBLIC"."EVENTS"
     ;;
   drill_fields: [id]
@@ -12,17 +15,6 @@ view: events {
   dimension: browser {
     type: string
     sql: ${TABLE}."BROWSER" ;;
-  }
-
-  dimension: city {
-    type: string
-    sql: ${TABLE}."CITY" ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}."COUNTRY" ;;
   }
 
   dimension_group: created {
@@ -47,16 +39,6 @@ view: events {
   dimension: ip_address {
     type: string
     sql: ${TABLE}."IP_ADDRESS" ;;
-  }
-
-  dimension: latitude {
-    type: number
-    sql: ${TABLE}."LATITUDE" ;;
-  }
-
-  dimension: longitude {
-    type: number
-    sql: ${TABLE}."LONGITUDE" ;;
   }
 
   dimension: os {
@@ -93,11 +75,6 @@ view: events {
     type: number
     # hidden: yes
     sql: ${TABLE}."USER_ID" ;;
-  }
-
-  dimension: zip {
-    type: zipcode
-    sql: ${TABLE}."ZIP" ;;
   }
 
   measure: count {
