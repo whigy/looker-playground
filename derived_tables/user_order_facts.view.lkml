@@ -2,6 +2,7 @@
 # include: "huijie_case_study_playground.model.lkml"
 explore: user_order_facts {}
 view: user_order_facts {
+  label: "User Order Fact Table"
   derived_table: {
     explore_source: order_items {
       column: user_id {}
@@ -13,6 +14,8 @@ view: user_order_facts {
   }
   dimension: user_id {
     primary_key: yes
+    label: "User ID"
+    view_label: "ID"
     type: number
   }
   dimension: count_of_orders {

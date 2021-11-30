@@ -116,6 +116,30 @@ view: users {
       /NULLIF(${count}, 0) ;;
   }
 
+  # # ------- User-order specific ------
+  measure: total_lifetime_orders {
+    type: count_distinct
+    sql: ${order_items.id} ;;
+  }
+
+  measure: total_lifetime_orders_bucket {
+    sql: CASE
+      WHEN ${total_lifetime_orders} < 1 THEN '0 Order'
+      WHEN ${total_lifetime_orders} = 1 THEN '1 Order'
+      WHEN ${total_lifetime_orders} = 2 THEN '2 Orders'
+      WHEN ${total_lifetime_orders} <= 5 THEN '3-5 Orders'
+      WHEN ${total_lifetime_orders} <= 9 THEN '6-9 Orders'
+      ELSE '10+ Orders'
+    END ;;
+  }
+
+  set: user_measures {
+    fields: [
+      total_lifetime_orders,
+      total_lifetime_orders_bucket
+    ]
+  }
+
   # ----- Templated filters ------
   filter: incoming_traffic_source {
     type: string
@@ -124,7 +148,7 @@ view: users {
   }
 
   dimension: hidden_traffic_source_filter {
-    hidden: yes
+    hidden: no
     type: yesno
     sql: {% condition incoming_traffic_source %}
       ${traffic_source} {% endcondition %} ;;
@@ -133,7 +157,7 @@ view: users {
   measure: changeable_count_measure {
     type: count_distinct
     sql: ${id} ;;
-    filters: [ hidden_traffic_source_filter: "Yes"]
+    filters: [hidden_traffic_source_filter: "Yes"]
   }
 
 }

@@ -16,6 +16,7 @@ GROUP BY 1
   }
 
   dimension: product_sku {
+    primary_key: yes
     type: string
     sql: ${TABLE}."PRODUCT_SKU" ;;
   }

@@ -57,6 +57,8 @@ view: events {
   }
 
   dimension: state {
+    group_label: "geography"
+    map_layer_name: us_states
     type: string
     sql: ${TABLE}."STATE" ;;
   }

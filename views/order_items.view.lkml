@@ -110,6 +110,11 @@ view: order_items {
     sql: ${sale_price} - ${inventory_items.cost} ;;
   }
 
+  # dimension: user_order_sequence { # This is not how it works
+  #   type: number
+  #   sql: row_number() over (PARTITION BY ${order_items.user_id} order by ${order_items.created_raw} asc) ;;
+  # }
+
   measure: count {
     type: count
     drill_fields: [detail*]

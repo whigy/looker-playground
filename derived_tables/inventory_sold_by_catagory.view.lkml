@@ -9,7 +9,9 @@ view: inventory_sold_by_catagory {
       column: cost_of_goods_sold {}
     }
   }
-  dimension: product_category {}
+  dimension: product_category {
+    primary_key: yes
+  }
   dimension: total_cost {
     value_format_name: usd
     type: number

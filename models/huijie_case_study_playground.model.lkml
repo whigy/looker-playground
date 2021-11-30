@@ -15,7 +15,7 @@ datagroup: user_datagroup { # explore level data group
 }
 
 datagroup: order_items_datagroup {
-  sql_trigger: SELECT created FROM order_items_datagroup ;;
+  sql_trigger: SELECT created FROM order_items ;;
   max_cache_age: "4 hour"
 }
 
@@ -26,11 +26,13 @@ explore: distribution_centers {}
 explore: etl_jobs {}
 
 explore: events {
+  view_label: "_Events"
+  # group_label: "Huijie case study playground"
   join: users {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
-    # fields: [-customer_with_return_rate]
+    fields: [-total_lifetime_orders, -total_lifetime_orders_bucket]
   }
 }
 
@@ -49,9 +51,9 @@ explore: inventory_items {
 }
 
 explore: order_items {
-  view_label: "Order Items"
-  sql_always_where: ${status} != 'Returned' ;; # This filter is not changable by users
-  sql_always_having: ${total_sale_price} >= 200 ;; # This filter is not changable by users
+  view_label: "_Order Items"
+  # sql_always_where: ${status} != 'Returned' ;; # This filter is not changable by users
+  # sql_always_having: ${total_sale_price} >= 200 ;; # This filter is not changable by users
   # always_filter: {
   #   filters: [order_items.created_date: "before 1 day ago"]
   # }
@@ -63,6 +65,7 @@ explore: order_items {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: many_to_one
+    # fields: [-total_lifetime_orders, -total_lifetime_orders_bucket]
   }
 
   join: inventory_items {
@@ -80,6 +83,12 @@ explore: order_items {
   join: distribution_centers {
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
+    relationship: many_to_one
+  }
+
+  join: brand_order_facts_ndt {
+    type: left_outer
+    sql_on: ${brand_order_facts_ndt.brand} = ${products.brand} ;;
     relationship: many_to_one
   }
 }
@@ -106,4 +115,4 @@ explore: users {
   }
 }
 
-explore: brand_order_facts_ndt {}
+explore: order_user_fact {}
