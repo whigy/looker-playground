@@ -5,7 +5,7 @@ view: brand_order_facts_ndt {
     # sortkeys: ["order_id"] # Persistant derived table: Redshift
     # indexes: ["order_id"]
     # sql_trigger_value: SELECT CURDATE() ;;
-    datagroup_trigger: order_items_datagroup # Doesn't work??
+    # datagroup_trigger: order_items_datagroup # Doesn't work??
     # persist_for: "8 hours"
 
     explore_source: order_items {
@@ -15,6 +15,7 @@ view: brand_order_facts_ndt {
         sql: row_number() over (order by revenue desc)
           ;;
       }
+      # timezone: query_timezone # Cannot persist Native Derived Table for view "brand_order_facts_ndt" with "query_timezone" timezone. Every user has their own timezone
 
       filters: [order_items.created_date: "365 days"]
       # filters: [order_items.created_year: "2018"]
@@ -25,7 +26,7 @@ view: brand_order_facts_ndt {
       # }
 
       # This only works when you have joined the NDT (and not PDT) to its explore_source.
-      # bind_all_filters: yes # doesn't work? Cannot use native derived table with "bind_all_filters" outside of its source explore "Order Items"
+      # bind_all_filters: yes # doesn't work. No bind filter for presist. Cannot use native derived table with "bind_all_filters" outside of its source explore "Order Items"
     }
 
   }

@@ -63,6 +63,11 @@ view: users {
     sql: ${TABLE}."LAST_NAME" ;;
   }
 
+  dimension: full_name {
+    type: string
+    sql: ${first_name} || ' ' || ${last_name};;
+  }
+
   dimension: state {
     type: string
     sql: ${TABLE}."STATE" ;;
@@ -104,6 +109,11 @@ view: users {
     drill_fields: [id, first_name, last_name, events.count, order_items.count]
   }
 
+  measure: count_id {
+    type: count_distinct
+    sql:${id} ;;
+  }
+
   measure: count_female_users {
     type: count
     filters: [gender: "Female"]
@@ -119,7 +129,7 @@ view: users {
   # # ------- User-order specific ------
   measure: total_lifetime_orders {
     type: count_distinct
-    sql: ${order_items.id} ;;
+    sql: ${order_items.order_id} ;;
   }
 
   measure: total_lifetime_orders_bucket {

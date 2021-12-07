@@ -127,11 +127,10 @@ view: order_items {
     value_format_name: usd
   }
 
-  # measure: total_sales_new_users {
-  #   type: sum
-  #   sql: ${sale_price} ;;
-  #   filters:  [users.is_new_user: "Yes"]
-  # }
+  measure: total_margin {
+    type: sum
+    sql: ${margin} ;;
+  }
 
   measure: average_sale_price {
     description: "Average of sale price"
@@ -187,7 +186,7 @@ view: order_items {
   }
 
   measure: number_of_items {
-    description: "A count of unique orders"
+    description: "Count of items"
     type: count_distinct
     sql: ${id} ;;
   }
@@ -227,7 +226,8 @@ view: order_items {
     sql: ${total_sale_price} / ${users.count} ;;
   }
 
-  measure: count_of_orders {
+  measure: number_of_orders {
+    description: "Count of unique orders"
     type: count_distinct
     sql: ${order_id} ;;
   }
