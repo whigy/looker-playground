@@ -187,7 +187,7 @@ view: order_items {
 
   measure: gross_margin_percentage {
     type: number
-    sql: ${total_gross_margin} / NULLIFZERO(${total_gross_revenue}) ;;
+    sql: IF(${total_gross_revenue} = 0, null, ${total_gross_margin} / ${total_gross_revenue}) ;;
     value_format_name: percent_0
   }
 
@@ -217,7 +217,7 @@ view: order_items {
 
   measure: items_return_rate {
     type: number
-    sql: ${number_of_items_returned} / NULLIFZERO(${number_of_items_sold});;
+    sql: IF(${number_of_items_sold} = 0, null, ${number_of_items_returned} / ${number_of_items_sold});;
     value_format_name: percent_0
   }
 
