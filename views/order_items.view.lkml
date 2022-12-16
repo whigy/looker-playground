@@ -85,6 +85,7 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.shipped_at ;;
+  }
 
   dimension_group: shipping_days {
     type: duration

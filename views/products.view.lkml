@@ -70,6 +70,7 @@ view: products {
       order_items.count,
       inventory_items.count
     ]
+  }
 
 
   # ----- Templated filters ------
